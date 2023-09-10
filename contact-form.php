@@ -18,7 +18,16 @@ if(!class_exists('ContactPlugin')) {
 
 		public function __construct()
 		{
+			// Define a constant to initialize the plugin path.
 			define('MY_PLUGIN_PATH', plugin_dir_path(__FILE__));
+
+			// Call the packages that you are using in the plugin to enhance the functionality.
+			require_once(MY_PLUGIN_PATH . '/vendor/autoload.php');
+		}
+
+		public function initialize() {
+			include_once(MY_PLUGIN_PATH . '/includes/utilities.php');
+			include_once(MY_PLUGIN_PATH . '/includes/contact-form.php');
 		}
 
 	}
@@ -27,3 +36,6 @@ if(!class_exists('ContactPlugin')) {
 else {
 	die('This class is already exist!');
 }
+
+$ContactPlugin = new ContactPlugin();
+$ContactPlugin->initialize();
