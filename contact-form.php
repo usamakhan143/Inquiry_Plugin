@@ -28,6 +28,7 @@ if(!class_exists('ContactPlugin')) {
 		public function initialize() {
 			include_once(MY_PLUGIN_PATH . '/includes/utilities.php');
 			include_once(MY_PLUGIN_PATH . '/includes/option-page.php');
+			include_once(MY_PLUGIN_PATH . '/includes/contact-form.php');
 		}
 
 	}

@@ -1,6 +1,7 @@
 <?php
 
 add_shortcode('contact', 'show_contact_form');
+add_action('rest_api_init', 'create_rest_endpoint');
 
 
 
@@ -16,7 +17,6 @@ function create_rest_endpoint() {
     ));
 
 }
-add_action('rest_api_init', 'create_rest_endpoint');
 
 function handle_inquiry($data) {
    $params = $data->get_paramS();
@@ -28,7 +28,7 @@ function handle_inquiry($data) {
    unset($params['_wpnonce']);
    unset($params['_wp_http_referer']);
 
-   var_dump($params);
+   // var_dump($params);
    
    // Send to Email.
    $headers = [];
