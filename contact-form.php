@@ -1,20 +1,22 @@
 <?php
-/**
-* Plugin Name: Contact Plugin
-* Description: This is my first plugin development Enviroment Setup
-* Version: 1.0.0
-* Text Domain: translate-contact-plugin
-*/
 
-if ( ! defined( 'ABSPATH' ) ) {
+/**
+ * Plugin Name: Contact Plugin
+ * Description: This is my first plugin development Enviroment Setup
+ * Version: 1.0.0
+ * Text Domain: translate-contact-plugin
+ */
+
+if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
 
-if(!class_exists('ContactPlugin')) {
+if (!class_exists('ContactPlugin')) {
 
 
-	class ContactPlugin {
+	class ContactPlugin
+	{
 
 		public function __construct()
 		{
@@ -25,16 +27,14 @@ if(!class_exists('ContactPlugin')) {
 			require_once(MY_PLUGIN_PATH . '/vendor/autoload.php');
 		}
 
-		public function initialize() {
+		public function initialize()
+		{
 			include_once(MY_PLUGIN_PATH . '/includes/utilities.php');
 			include_once(MY_PLUGIN_PATH . '/includes/option-page.php');
 			include_once(MY_PLUGIN_PATH . '/includes/contact-form.php');
 		}
-
 	}
-
-}
-else {
+} else {
 	die('This class is already exist!');
 }
 
