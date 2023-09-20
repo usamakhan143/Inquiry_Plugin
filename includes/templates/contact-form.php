@@ -68,7 +68,7 @@
         <input type="text" id="name" name="name" placeholder="Your name..">
 
         <label for="email">Email</label>
-        <input type="text" id="email" name="email" placeholder="Your last name..">
+        <input type="text" id="email" name="email" placeholder="Your Email Address..">
 
         <label for="message">Message</label>
         <textarea id="message" name="message" placeholder="Your Message Here.."></textarea>
