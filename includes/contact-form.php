@@ -4,8 +4,9 @@ add_shortcode('contact', 'show_contact_form');
 add_action('rest_api_init', 'create_rest_endpoint');
 add_action('init', 'create_submissions_page');
 add_action( 'add_meta_boxes', 'create_meta_box' );
-
-
+add_filter('manage_submission_posts_columns', 'custom_submissions_columns');
+add_action( 'manage_submission_posts_custom_column', 'place_submission_column_value', 10, 2);
+add_action('admin_init', 'setup_search');
 
 function show_contact_form()
 {
@@ -19,20 +20,25 @@ function create_submissions_page()
         'has_archive' => true, // It means wordpress will assume the it should concider as post. As we all know we have certain types of posttypes such as pages, etc.
         'labels' => [
             'name' => 'Submissions',
-            'singular_name' => 'Submission'
+            'singular_name' => 'Submission',
+            'edit_item' => 'Edit Submission',
         ],
 
+        'capability_type' => 'post',
         /**
          * To Disable the Add New feature in the Post-type.
          */
-        // 'capabilities' => [ 'create_posts' => 'do_not_allow' ],
+        'capabilities' => [ 
+            'create_posts' => false 
+        ],
         
         /**
          * This will allows you to add custom fields in your post-type. (If we need title and other default fields in this post-type so we need to define them in this array.)
          * 'supports' => false // No fields are supported by this custom post-type or we can't be able to show any field inside the post-type
          * 'supports' => ['custom-fields'] // only support custom fields 
          */        
-        'supports' => false 
+        'supports' => false,
+        'map_meta_cap' => true 
     ];
     register_post_type('submission', $args);
 }
@@ -102,4 +108,54 @@ function display_submissions(){
     }
     
     echo '</ul>';
+}
+
+function custom_submissions_columns($columns) {
+    // dd($columns) ;
+
+    // We are creating our own column.
+    $columns = [
+        'cb' => $columns['cb'], // Except this all are custom.
+        'name' => __('Name', 'translate-contact-plugin'),
+        'email' => __('Email', 'translate-contact-plugin'),
+        'message' => __('Message', 'translate-contact-plugin'),
+    ];
+
+    return $columns;
+}
+
+
+function place_submission_column_value($columns, $post_id) {
+    
+    // Here we have set all the column values in their respective column.
+    switch($columns){
+        case 'name':
+            echo get_post_meta($post_id, 'name', true);
+            break;
+        case 'email':
+            echo get_post_meta($post_id, 'email', true);
+            break;
+        case 'message':
+            echo get_post_meta($post_id, 'message', true);
+            break;
+        default:
+            echo 'ABC';
+            break;
+    }
+}
+
+
+function setup_search(){
+
+    global $type;
+
+    if($type === 'submission') {
+        add_filter('posts_search', 'submissions_search_override', 10, 2);
+    }
+
+}
+
+function submissions_search_override($search, $query) {
+    global $wpdb;
+    
 }
