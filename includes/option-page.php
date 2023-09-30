@@ -25,8 +25,8 @@ function create_options_page() {
         ->set_attribute('placeholder', 'Enter Email Address')
         ->set_help_text('The submission notification will send to this email.'),
         
-        Field::make( 'text', 'contact_plugin_message', __( 'Confirmation Message' ) )
-        ->set_attribute('placeholder', 'Enter Confirmation Message')
+        Field::make( 'textarea', 'contact_plugin_message', __( 'Confirmation Message' ) )
+        ->set_attribute('placeholder', 'If you want to use a dynamic tag for the name field in the message, please use {name}.')
         ->set_help_text('Type your confirmation message which will be displayed when the user submit the form.'),
 
     ) );

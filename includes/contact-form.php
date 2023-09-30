@@ -42,7 +42,9 @@ function create_submissions_page()
         'supports' => false,
         'map_meta_cap' => true 
     ];
-    register_post_type('submission', $args);
+    if(get_plugin_options('contact_plugin_active')) { 
+        register_post_type('submission', $args);
+    }
 }
 
 function create_rest_endpoint()
@@ -74,6 +76,13 @@ function handle_inquiry($data)
     $headers = [];
     $admin_email = get_bloginfo('admin_email');
     $admin_name = get_bloginfo('name');
+
+    // Set Recipent Email
+    $recipent_email = get_plugin_options('contact_plugin_email');
+    if(!$recipent_email){
+        $recipent_email = $admin_email;
+    }
+
     $headers[] = "From: {$admin_name} <{$admin_email}>";
     $headers[] = "Reply-to: {$param_name} <{$param_email}>";
     $subject = "New Inquiry from {$param_name}";
@@ -108,9 +117,16 @@ function handle_inquiry($data)
         add_post_meta( $post_id, $label, $value );
     }
 
-    wp_mail($admin_email, $subject, $message, $headers);
+    wp_mail($recipent_email, $subject, $message, $headers);
 
-    return new WP_REST_Response('Message Sent Successfully!', 200);
+    // Set confirmation message
+    $confirm_msg = get_plugin_options('contact_plugin_message');
+    $confirm_msg = str_replace('{name}', $param_name, $confirm_msg);
+    if(!get_plugin_options('contact_plugin_message')){
+        $confirm_msg = 'Message Sent Successfully!';
+    }
+
+    return new WP_REST_Response($confirm_msg, 200);
 }
 
 // Creating a metabox in to the custom post-type that we have named submissions.

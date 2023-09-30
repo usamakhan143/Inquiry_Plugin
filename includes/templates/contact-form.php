@@ -1,3 +1,5 @@
+<?php if(get_plugin_options('contact_plugin_active')) { ?>
+
 <div class="form-div">
     <h3>Contact Form</h3>
     <form id="contact-form">
@@ -44,3 +46,5 @@
   });
 });
 </script>
+
+<?php } ?>
