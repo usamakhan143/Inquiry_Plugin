@@ -65,20 +65,23 @@ function handle_inquiry($data)
     unset($params['_wpnonce']);
     unset($params['_wp_http_referer']);
 
-    // var_dump($params);
+    // Data coming from the Form
+    $param_name = sanitize_text_field($params['name']);
+    $param_email = sanitize_email($params['email']);
+    $param_message = sanitize_textarea_field($params['message']);
 
     // Send to Email.
     $headers = [];
     $admin_email = get_bloginfo('admin_email');
     $admin_name = get_bloginfo('name');
     $headers[] = "From: {$admin_name} <{$admin_email}>";
-    $headers[] = "Reply-to: {$params['name']} <{$params['email']}>";
-    $subject = "New Inquiry from {$params['name']}";
+    $headers[] = "Reply-to: {$param_name} <{$param_email}>";
+    $subject = "New Inquiry from {$param_name}";
     $message = '';
-    $message .= "Inquiry Sent by {$params['name']}";
+    $message .= "Inquiry Sent by {$param_name}";
 
     $postarr = [
-        'post_title' => $params['name'],
+        'post_title' => $param_name,
         'post_type' => 'submission',
         'post_status' => 'publish'
     ];
@@ -86,7 +89,22 @@ function handle_inquiry($data)
     $post_id = wp_insert_post($postarr);
 
     foreach ($params as $label => $value) {
-        $message .= ucfirst($label) . ':' . $value;
+
+        switch($label) {
+            
+            case 'email':
+                $value = $param_email;
+                break;
+
+            case 'message':
+                $value = $param_message;
+                break;
+
+            default:
+                $value = sanitize_text_field($value);
+        }
+
+        $message .= ucfirst(sanitize_text_field($label)) . ':' . $value;
         add_post_meta( $post_id, $label, $value );
     }
 
@@ -106,7 +124,7 @@ function display_submissions(){
 
     echo '<ul>';
     foreach($post_metas as $key => $value) {
-        echo '<li><strong>' . ucfirst($key) . ':</strong> <br/>' . $value[0].'</li>';
+        echo '<li><strong>' . ucfirst($key) . ':</strong> <br/>' . esc_html($value[0]).'</li>';
     }
     
     echo '</ul>';
@@ -132,13 +150,13 @@ function place_submission_column_value($columns, $post_id) {
     // Here we have set all the column values in their respective column.
     switch($columns){
         case 'name':
-            echo get_post_meta($post_id, 'name', true);
+            echo esc_html(get_post_meta($post_id, 'name', true));
             break;
         case 'email':
-            echo get_post_meta($post_id, 'email', true);
+            echo esc_html(get_post_meta($post_id, 'email', true));
             break;
         case 'message':
-            echo get_post_meta($post_id, 'message', true);
+            echo esc_html(get_post_meta($post_id, 'message', true));
             break;
         default:
             echo 'ABC';
