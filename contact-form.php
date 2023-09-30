@@ -23,6 +23,9 @@ if (!class_exists('ContactPlugin')) {
 			// Define a constant to initialize the plugin path.
 			define('MY_PLUGIN_PATH', plugin_dir_path(__FILE__));
 
+			// Define a constant to initialize the frontend plugin path.
+			define('MY_PLUGIN_URL', plugin_dir_url(__FILE__));
+
 			// Call the packages that you are using in the plugin to enhance the functionality.
 			require_once(MY_PLUGIN_PATH . '/vendor/autoload.php');
 		}

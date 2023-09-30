@@ -7,6 +7,8 @@ add_action( 'add_meta_boxes', 'create_meta_box' );
 add_filter('manage_submission_posts_columns', 'custom_submissions_columns');
 add_action( 'manage_submission_posts_custom_column', 'place_submission_column_value', 10, 2);
 add_action('admin_init', 'setup_search');
+add_action('wp_enqueue_scripts', 'enqueue_custom_css');
+add_action( 'wp_footer', 'enqueue_custom_js');
 
 function show_contact_form()
 {
@@ -158,4 +160,13 @@ function setup_search(){
 function submissions_search_override($search, $query) {
     global $wpdb;
     
+}
+
+
+function enqueue_custom_css(){
+    wp_enqueue_style('contact_form_plugin', MY_PLUGIN_URL . 'assets/css/contact-plugin.css');
+}
+
+function enqueue_custom_js(){
+    wp_enqueue_script('contact_form_plugin', MY_PLUGIN_URL . 'assets/js/contact-plugin.js');
 }
