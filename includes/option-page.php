@@ -17,6 +17,7 @@ function create_options_page() {
     
     Container::make( 'theme_options', __( 'Contact Form' ) )
     ->set_icon( 'dashicons-carrot' )
+    ->set_page_menu_position( 30 )
     ->add_fields( array(
         
         Field::make( 'checkbox', 'contact_plugin_active', __( 'Active' ) ),
@@ -29,6 +30,6 @@ function create_options_page() {
         ->set_attribute('placeholder', 'If you want to use a dynamic tag for the name field in the message, please use {name}.')
         ->set_help_text('Type your confirmation message which will be displayed when the user submit the form.'),
 
-    ) );
+    ));
 
 }

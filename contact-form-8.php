@@ -1,16 +1,19 @@
 <?php
 
 /**
- * Plugin Name: Contact Plugin
- * Description: This is my first plugin development Enviroment Setup
+ * Plugin Name: Contact Form 8
+ * Description: Just another contact form plugin. Simple but flexible.
  * Version: 1.0.0
+ * Author: Usama Khan
+ * Author URI: https://github.com/usamakhan143
+ * Requires PHP: 7.4
  * Text Domain: translate-contact-plugin
  */
 
 if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
-
+// Contact Form 8: A powerful WordPress plugin that seamlessly captures and stores user submissions in your database while efficiently sending emails to both administrators and users.
 
 if (!class_exists('ContactPlugin')) {
 

@@ -20,10 +20,12 @@ function create_submissions_page()
     $args = [
         'public' => true,
         'has_archive' => true, // It means wordpress will assume the it should concider as post. As we all know we have certain types of posttypes such as pages, etc.
+        'menu_position' => 57,
+        'publicly_queryable' => false,
         'labels' => [
             'name' => 'Submissions',
             'singular_name' => 'Submission',
-            'edit_item' => 'Edit Submission',
+            'edit_item' => 'View Submission',
         ],
 
         'capability_type' => 'post',
